@@ -7,7 +7,7 @@ class Counter extends Component {
     * When the state changes the component re-renders
     * */
     state = {
-        count: 0,
+        count: this.props.value,
         address: {
             city: 'Tehran'
         },
@@ -29,12 +29,19 @@ class Counter extends Component {
     }
 
     render() {
+        /*
+        * props includes all the attributes that we set in a component
+        * */
+        console.log('props', this.props);
         return (
             <React.Fragment>
+                {this.props.children}
                 <span style={this.styles} className={this.badgeModification()}>{this.formatCount()}</span>
                 {/*Here in onClick we are not calling the method we just refer to it this is the
                    difference between event and other functions*/}
-                <button onClick={this.handleIncrement} className="btn btn-secondary btn-sm">Increment</button>
+                {/*If we want to pass ann argument to the event handler of this button*/}
+                <button onClick={() => this.handleIncrement({id: 1})} className="btn btn-secondary btn-sm">Increment
+                </button>
                 {this.renderTags()}
             </React.Fragment>
         );
@@ -68,8 +75,14 @@ class Counter extends Component {
     * This is an event handler
     * If we use this without bind method we get undefined error on the console
     * */
-    handleIncrement() {
-        console.log("Increment clicked : ", this.state.count)
+    handleIncrement(product) {
+        console.log("Increment clicked : ", this.state.count);
+        console.log(product);
+        /*
+        * This method (setState) tells react that we are updating the state
+        * Then react schedule a call to render method
+        * */
+        this.setState({count: this.state.count + 1})
     }
 }
 
